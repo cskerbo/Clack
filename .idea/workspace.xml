@@ -13,6 +13,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -41,6 +42,7 @@
       <command value="rails new backend --api --database=postgresql" />
       <command value="rails g model Message content:string room_id:integer" />
       <command value="rails g model Room name:string" />
+      <command value="rails g channel Room" />
     </option>
   </component>
   <component name="RunManager" selected="Rails.Development: backend">
@@ -138,7 +140,7 @@
       <option name="presentableId" value="Default" />
       <updated>1586281606687</updated>
       <workItem from="1586281607968" duration="1558000" />
-      <workItem from="1586293388511" duration="762000" />
+      <workItem from="1586293388511" duration="2740000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1586293512498</created>
@@ -259,9 +261,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586293916076" />
-    <state x="125" y="243" width="672" height="677" key="run.anything.popup" timestamp="1586292409602">
+    <state x="125" y="243" width="672" height="677" key="run.anything.popup" timestamp="1586296404512">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="125" y="243" width="672" height="677" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1586292409602" />
+    <state x="125" y="243" width="672" height="677" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1586296404512" />
   </component>
 </project>
