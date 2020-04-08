@@ -6,12 +6,16 @@ class RoomsController < ApplicationController
 
   def create
     room = Room.new(room_params)
-    render json: room
+    if room.save!
+      render json: room
+    else
+      render json: room.errors.full_message
+    end
   end
 
   def show
     room = Room.find(params[:id])
-    render json :room, include: [:messages]
+    render json: room, include: [:messages]
   end
 
   private

@@ -5,3 +5,9 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+Room.create(name: 'General')
+Room.create(name: 'Private')
+Room.create(name: 'Team A')
+Message.create(content: 'This is a test message.', room_id: 1)
+Message.create(content: 'This is a test message.', room_id: 2)
+Message.create(content: 'This is a test message.', room_id: 3)
