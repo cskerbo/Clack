@@ -2,8 +2,12 @@ class MessagesController < ApplicationController
   def create
     message = Message.new(message_params)
     room = Room.find(message.room_id)
-    RoomChannel.broadcast_to(room, message)
-    render json :message
+    if message.save!
+      RoomChannel.broadcast_to(room, message)
+      render json: message
+    else
+      render json: message.errors.full_message
+    end
   end
 
   private
