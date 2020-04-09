@@ -1,12 +1,29 @@
+
+
 const BASE_URL = 'http://localhost:3000'
 const WEB_SOCKET_URL = 'ws://localhost:3000/cable'
+const siteContainer = document.querySelector('#site-container')
+const loginContainer = document.querySelector('#login-container')
 const channelList = document.querySelector('#channel-list')
 const newChannel = document.querySelector('#create-channel')
 const messageContainer = document.querySelector('#messages')
 const messageForm = document.querySelector('#create-message')
 const currentChannel = document.querySelector('#current-channel')
 const channelHeader = document.querySelector('#channel-header');
+const loginForm = document.querySelector('#login-form');
 
+function checkLogin() {
+    if (localStorage.getItem('token')) {
+        siteContainer.style = ''
+    }
+    else {
+        loginContainer.style = ''
+    }
+}
+
+function attemptLogin(username, password) {
+
+}
 
 function renderChannel(room) {
         let newDiv = document.createElement('div');
@@ -137,6 +154,7 @@ function createWebsocket(roomId) {
 }
 
 document.addEventListener('DOMContentLoaded',() => {
+    checkLogin();
     getChannelList();
     newChannel.addEventListener('submit', event => {
         event.preventDefault();
@@ -146,6 +164,12 @@ document.addEventListener('DOMContentLoaded',() => {
         event.preventDefault();
         createMessage(event.target[0].value, event.target.dataset.roomId)
     })
+    loginForm.addEventListener('submit', event => {
+        event.preventDefault();
+        attemptLogin(event.target[0].value, event.target[1].value)
+    })
 })
+
+
 
 

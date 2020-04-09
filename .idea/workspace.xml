@@ -14,6 +14,7 @@
       <list>
         <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -34,6 +35,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="project.settings.patched" value="true" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
@@ -141,6 +143,7 @@
       <updated>1586281606687</updated>
       <workItem from="1586281607968" duration="1558000" />
       <workItem from="1586293388511" duration="34111000" />
+      <workItem from="1586381234310" duration="4217000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1586293512498</created>
