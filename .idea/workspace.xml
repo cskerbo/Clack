@@ -45,6 +45,7 @@
       <command value="rails g model Message content:string room_id:integer" />
       <command value="rails g model Room name:string" />
       <command value="rails g channel Room" />
+      <command value="bundle install" />
     </option>
   </component>
   <component name="RunManager" selected="Rails.Development: backend">
@@ -236,22 +237,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="782" y="436" key="Github.CreateGistDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586294168899" />
-    <state width="456" height="281" key="GridCell.Tab.0.bottom" timestamp="1586296743880">
+    <state width="584" height="281" key="GridCell.Tab.0.bottom" timestamp="1586394640094">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="456" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586296743880" />
-    <state width="456" height="281" key="GridCell.Tab.0.center" timestamp="1586296743880">
+    <state width="584" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586394640094" />
+    <state width="584" height="281" key="GridCell.Tab.0.center" timestamp="1586394640094">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="456" height="281" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586296743880" />
-    <state width="456" height="281" key="GridCell.Tab.0.left" timestamp="1586296743879">
+    <state width="584" height="281" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586394640094" />
+    <state width="584" height="281" key="GridCell.Tab.0.left" timestamp="1586394640094">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="456" height="281" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586296743879" />
-    <state width="456" height="281" key="GridCell.Tab.0.right" timestamp="1586296743880">
+    <state width="584" height="281" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586394640094" />
+    <state width="584" height="281" key="GridCell.Tab.0.right" timestamp="1586394640094">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="456" height="281" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586296743880" />
+    <state width="584" height="281" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586394640094" />
     <state x="461" y="162" key="SettingsEditor" timestamp="1586294150337">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -264,9 +265,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586293916076" />
-    <state x="125" y="243" width="672" height="677" key="run.anything.popup" timestamp="1586296404512">
+    <state x="125" y="243" width="672" height="677" key="run.anything.popup" timestamp="1586394636219">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="125" y="243" width="672" height="677" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1586296404512" />
+    <state x="125" y="243" width="672" height="677" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1586394636219" />
   </component>
 </project>
