@@ -1,53 +1,113 @@
-
-
-const BASE_URL = 'http://localhost:3000'
-const WEB_SOCKET_URL = 'ws://localhost:3000/cable'
-const siteContainer = document.querySelector('#site-container')
-const loginContainer = document.querySelector('#login-container')
-const channelList = document.querySelector('#channel-list')
-const newChannel = document.querySelector('#create-channel')
-const messageContainer = document.querySelector('#messages')
-const messageForm = document.querySelector('#create-message')
-const currentChannel = document.querySelector('#current-channel')
+const BASE_URL = 'http://localhost:3000';
+const WEB_SOCKET_URL = 'ws://localhost:3000/cable';
+const siteContainer = document.querySelector('#site-container');
+const loginContainer = document.querySelector('#login-container');
+const channelList = document.querySelector('#channel-list');
+const newChannel = document.querySelector('#create-channel');
+const messageContainer = document.querySelector('#messages');
+const messageForm = document.querySelector('#create-message');
+const currentChannel = document.querySelector('#current-channel');
 const channelHeader = document.querySelector('#channel-header');
 const loginForm = document.querySelector('#login-form');
 
-function checkLogin() {
-    if (localStorage.getItem('token')) {
-        siteContainer.style = ''
+
+function isLoggedIn() {
+    let userToken = localStorage.getItem('token');
+    let userEmail = localStorage.getItem('email');
+    if (userToken) {
+        siteContainer.style = '';
+        loginContainer.style = 'display: none';
+        findCurrentUser()
+            .then  (userObject => {
+                getChannelList(userObject)
+            })
     }
     else {
-        loginContainer.style = ''
+        loginContainer.style = '';
+        siteContainer.style = 'display: none'
     }
 }
 
 function createUser(email, password) {
-    fetch(`${BASE_URL}/signup`,{
+    fetch(`${BASE_URL}/users`,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            user: {email, password}
+        })
+    })
+        .then(response => response.json())
+        .then(responseHandler)
+}
+
+function responseHandler(response) {
+    if (response.exception) {
+        alert("Oh Clack! There was an error: " + response.exception);
+    }
+    else {
+        alert("Success! Your account has been created! You may now login.");
+    }
+}
+
+
+function userLogin(email, password) {
+    fetch(`${BASE_URL}/user_token`,{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Accept': 'application/json'
         },
         body: JSON.stringify({
-            email: email,
-            password: password
+            auth: {email, password}
         })
     })
-        .then(response => console.log(response.json()))
+        .then(response => response.json())
+        .then(userObject => {
+            localStorage.setItem('token', `${userObject.jwt}`);
+            localStorage.setItem('email', `${email}`);
+            isLoggedIn()
+        })
+}
+
+function findCurrentUser() {
+    let email = localStorage.getItem('email')
+    return fetch(`${BASE_URL}/find_user`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+            user: {email}
+        })
+    })
+        .then(response => response.json())
 }
 
 function renderChannel(room) {
         let newDiv = document.createElement('div');
-        newDiv.classList.add('channel')
-        newDiv.dataset.roomId = room.id
-        newDiv.innerText = `${room.name}`
+        newDiv.classList.add('channel');
+        newDiv.dataset.roomId = room.id;
+        newDiv.innerText = `${room.name}`;
         newDiv.addEventListener('click', event => {
             findChannel(event.target.dataset.roomId)
         })
         channelList.appendChild(newDiv)
 }
 
-function getChannelList() {
-    fetch(`${BASE_URL}/rooms`)
+function getChannelList(userObject) {
+    fetch(`${BASE_URL}/user_rooms`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+        user: {id: userObject.id}
+    })
+    })
         .then(response => response.json())
         .then(allRooms => {
             allRooms.forEach( room => {
@@ -61,7 +121,7 @@ function createChannel(channelName) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify({
             name: channelName
@@ -80,7 +140,12 @@ function handleErrors(response) {
 }
 
 function findChannel(roomId) {
-    fetch(`${BASE_URL}/rooms/${roomId}`)
+    fetch(`${BASE_URL}/rooms/${roomId}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+    })
         .then(handleErrors)
         .then(response => response.json())
         .then(room => {
@@ -91,23 +156,23 @@ function findChannel(roomId) {
 
 function renderCurrentChannel(room) {
     checkSocket()
-    currentChannel.style = ''
-    messageContainer.innerHTML = ''
-    messageContainer.setAttribute('id', 'messages')
+    currentChannel.style = '';
+    messageContainer.innerHTML = '';
+    messageContainer.setAttribute('id', 'messages');
     channelHeader.innerText = room.name;
     messageForm.style = '';
-    messageForm.dataset.roomId = room.id
+    messageForm.dataset.roomId = room.id;
 
     room.messages.forEach( message => {
         renderMessage(message)
-    })
+    });
     createWebsocket(room.id)
 }
 
 function renderMessage(message) {
-    let newMessage = document.createElement('P')
-    newMessage.innerText = `${message.content}`
-    newMessage.dataset.messageId = message.id
+    let newMessage = document.createElement('P');
+    newMessage.innerText = `${message.content}`;
+    newMessage.dataset.messageId = message.id;
     messageContainer.appendChild(newMessage)
 }
 
@@ -116,7 +181,8 @@ function createMessage(content, roomId) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify({
             content: content,
@@ -135,19 +201,19 @@ function checkSocket() {
 function createWebsocket(roomId) {
     let socket = new WebSocket(WEB_SOCKET_URL);
     socket.onopen = function(event) {
-        console.log('Socket is open')
+        console.log('Socket is open');
         const newMessage = {
             command: 'subscribe',
             identifier: JSON.stringify({
                 id: roomId,
                 channel: 'RoomChannel'
             }),
-        }
+        };
         socket.send(JSON.stringify(newMessage));
-    }
+    };
     socket.onclose = function(event) {
         console.log('Socket is closed')
-    }
+    };
     socket.onmessage = function(event) {
         const response = event.data;
         const newMessage = JSON.parse(response);
@@ -157,29 +223,27 @@ function createWebsocket(roomId) {
         if (newMessage.message) {
             renderMessage(newMessage.message)
         }
-    }
+    };
     socket.onerror = function(error) {
         console.log(error)
     }
 }
 
 document.addEventListener('DOMContentLoaded',() => {
-    checkLogin();
-    getChannelList();
+    isLoggedIn();
     newChannel.addEventListener('submit', event => {
         event.preventDefault();
         createChannel(event.target[0].value)
-    })
+    });
     messageForm.addEventListener('submit', event => {
         event.preventDefault();
         createMessage(event.target[0].value, event.target.dataset.roomId)
-    })
+    });
     loginForm.addEventListener('submit', event => {
         event.preventDefault();
-        attemptLogin(event.target[0].value, event.target[1].value)
-    })
-})
-
+        userLogin(event.target[0].value, event.target[1].value)
+    });
+});
 
 
 

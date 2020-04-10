@@ -1,4 +1,5 @@
 class MessagesController < ApplicationController
+  before_action :authenticate_user
   def create
     message = Message.new(message_params)
     room = Room.find(message.room_id)
@@ -13,6 +14,6 @@ class MessagesController < ApplicationController
   private
 
   def message_params
-    params.require(:message).permit(:content, :room_id)
+    params.require(:message).permit(:content, :room_id, :user_id)
   end
 end

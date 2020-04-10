@@ -3,7 +3,7 @@ class CreateMessages < ActiveRecord::Migration[6.0]
     create_table :messages do |t|
       t.string :content
       t.integer :room_id
-
+      t.integer :user_id
       t.timestamps
     end
   end

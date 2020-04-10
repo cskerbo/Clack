@@ -1,4 +1,5 @@
 class RoomsController < ApplicationController
+  before_action :authenticate_user
   def index
     rooms = Room.all
     render json: rooms
@@ -7,10 +8,15 @@ class RoomsController < ApplicationController
   def create
     room = Room.new(room_params)
     if room.save!
-      render json: room
+      render json: room, status: 200
     else
-      render json: room.errors.full_message
+      render json: room.errors.full_message, status: 422
     end
+  end
+
+  def user_rooms
+    rooms = Room.find(id: params[:user_id])
+    render json: rooms
   end
 
   def show
@@ -21,6 +27,6 @@ class RoomsController < ApplicationController
   private
 
   def room_params
-    params.require(:room).permit(:name)
+    params.require(:room).permit(:name, :user_id)
   end
 end
