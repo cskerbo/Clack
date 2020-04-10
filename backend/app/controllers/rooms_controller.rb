@@ -15,7 +15,7 @@ class RoomsController < ApplicationController
   end
 
   def user_rooms
-    rooms = Room.find(id: params[:user_id])
+    rooms = Room.where(user_id: params[:room][:user_id])
     render json: rooms
   end
 

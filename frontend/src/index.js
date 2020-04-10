@@ -13,14 +13,14 @@ const loginForm = document.querySelector('#login-form');
 
 function isLoggedIn() {
     let userToken = localStorage.getItem('token');
-    let userEmail = localStorage.getItem('email');
     if (userToken) {
         siteContainer.style = '';
         loginContainer.style = 'display: none';
         findCurrentUser()
             .then  (userObject => {
-                getChannelList(userObject)
+                localStorage.setItem('user_id', `${userObject.id}`)
             })
+        getChannelList()
     }
     else {
         loginContainer.style = '';
@@ -97,7 +97,7 @@ function renderChannel(room) {
         channelList.appendChild(newDiv)
 }
 
-function getChannelList(userObject) {
+function getChannelList() {
     fetch(`${BASE_URL}/user_rooms`, {
         method: 'POST',
         headers: {
@@ -105,7 +105,7 @@ function getChannelList(userObject) {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify({
-        user: {id: userObject.id}
+        room: {user_id: `${localStorage.getItem('user_id')}`}
     })
     })
         .then(response => response.json())
@@ -186,7 +186,8 @@ function createMessage(content, roomId) {
         },
         body: JSON.stringify({
             content: content,
-            room_id: roomId
+            room_id: roomId,
+            user_id: `${localStorage.getItem('user_id')}`
         })
     })
         .then(handleErrors)
