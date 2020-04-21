@@ -9,6 +9,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def index
+    users = User.all
+    render json: users, only: :email
+  end
+
   def find
     @user = User.find_by(email: params[:user][:email])
     if @user
@@ -25,6 +30,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email, :password)
+    params.require(:user).permit(:email, :username, :password)
   end
 end

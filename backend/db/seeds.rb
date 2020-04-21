@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 #
 User.create(email: 'chris.kerbo@outlook.com', password: 'testing')
-User.create(email: 'testing', password: 'testing')
+User.create(email: 'eric', password: 'testing')
 Room.create(name: 'General', user_id: 1)
 Room.create(name: 'Private', user_id: 1)
 Room.create(name: 'Team A', user_id: 2)

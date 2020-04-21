@@ -2,6 +2,7 @@ const BASE_URL = 'http://localhost:3000';
 const WEB_SOCKET_URL = 'ws://localhost:3000/cable';
 const siteContainer = document.querySelector('#site-container');
 const loginContainer = document.querySelector('#login-container');
+const newUserContainer = document.querySelector('#new-user-container');
 const channelList = document.querySelector('#channel-list');
 const newChannel = document.querySelector('#create-channel');
 const messageContainer = document.querySelector('#messages');
@@ -9,7 +10,9 @@ const messageForm = document.querySelector('#create-message');
 const currentChannel = document.querySelector('#current-channel');
 const channelHeader = document.querySelector('#channel-header');
 const loginForm = document.querySelector('#login-form');
-
+const newUserForm = document.querySelector('#new-user-form');
+const newLink = document.querySelector('#new-user-link');
+let sockets = []
 
 function isLoggedIn() {
     let userToken = localStorage.getItem('token');
@@ -17,25 +20,23 @@ function isLoggedIn() {
         siteContainer.style = '';
         loginContainer.style = 'display: none';
         findCurrentUser()
-            .then  (userObject => {
-                localStorage.setItem('user_id', `${userObject.id}`)
-            })
-        getChannelList()
+        setTimeout(function() {getChannelList(); }, 100)
     }
     else {
         loginContainer.style = '';
         siteContainer.style = 'display: none'
     }
+
 }
 
-function createUser(email, password) {
+function createUser(email, username, password) {
     fetch(`${BASE_URL}/users`,{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            user: {email, password}
+            user: {email, username, password}
         })
     })
         .then(response => response.json())
@@ -48,9 +49,10 @@ function responseHandler(response) {
     }
     else {
         alert("Success! Your account has been created! You may now login.");
+        loginContainer.style = '';
+        newUserContainer.style = 'display: none';
     }
 }
-
 
 function userLogin(email, password) {
     fetch(`${BASE_URL}/user_token`,{
@@ -84,6 +86,9 @@ function findCurrentUser() {
         })
     })
         .then(response => response.json())
+        .then  (userObject => {
+            localStorage.setItem('user_id', `${userObject.id}`);
+        })
 }
 
 function renderChannel(room) {
@@ -98,15 +103,12 @@ function renderChannel(room) {
 }
 
 function getChannelList() {
-    fetch(`${BASE_URL}/user_rooms`, {
-        method: 'POST',
+    fetch(`${BASE_URL}/rooms`, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({
-        room: {user_id: `${localStorage.getItem('user_id')}`}
-    })
+        }
     })
         .then(response => response.json())
         .then(allRooms => {
@@ -185,7 +187,7 @@ function createMessage(content, roomId) {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify({
-            content: content,
+            content: `${localStorage.getItem('email')}: ${content}`,
             room_id: roomId,
             user_id: `${localStorage.getItem('user_id')}`
         })
@@ -200,6 +202,7 @@ function checkSocket() {
 }
 
 function createWebsocket(roomId) {
+    removeAllClients()
     let socket = new WebSocket(WEB_SOCKET_URL);
     socket.onopen = function(event) {
         console.log('Socket is open');
@@ -228,6 +231,15 @@ function createWebsocket(roomId) {
     socket.onerror = function(error) {
         console.log(error)
     }
+    sockets.push(socket)
+    console.log(sockets)
+}
+
+function removeAllClients(){
+    sockets.forEach(function(s) {
+        s.close();
+    });
+
 }
 
 document.addEventListener('DOMContentLoaded',() => {
@@ -242,7 +254,18 @@ document.addEventListener('DOMContentLoaded',() => {
     });
     loginForm.addEventListener('submit', event => {
         event.preventDefault();
+        console.log(event);
         userLogin(event.target[0].value, event.target[1].value)
+
+    });
+    newUserForm.addEventListener('submit', event => {
+        event.preventDefault();
+        createUser(event.target[0].value, event.target[1].value, event.target[2].value)
+    });
+    newLink.addEventListener('click', event => {
+        event.preventDefault();
+        loginContainer.style = 'display: none';
+        newUserContainer.style = ''
     });
 });
 

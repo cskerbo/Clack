@@ -14,11 +14,6 @@ class RoomsController < ApplicationController
     end
   end
 
-  def user_rooms
-    rooms = Room.where(user_id: params[:room][:user_id])
-    render json: rooms
-  end
-
   def show
     room = Room.find(params[:id])
     render json: room, include: [:messages]
@@ -27,6 +22,6 @@ class RoomsController < ApplicationController
   private
 
   def room_params
-    params.require(:room).permit(:name, :user_id)
+    params.require(:room).permit(:name)
   end
 end
