@@ -3,6 +3,7 @@ const WEB_SOCKET_URL = 'ws://localhost:3000/cable';
 const siteContainer = document.querySelector('#site-container');
 const loginContainer = document.querySelector('#login-container');
 const newUserContainer = document.querySelector('#new-user-container');
+const channelContainer = document.querySelector('#new-channel-container')
 const channelList = document.querySelector('#channel-list');
 const newChannel = document.querySelector('#create-channel');
 const messageContainer = document.querySelector('#messages');
@@ -12,6 +13,7 @@ const channelHeader = document.querySelector('#channel-header');
 const loginForm = document.querySelector('#login-form');
 const newUserForm = document.querySelector('#new-user-form');
 const newLink = document.querySelector('#new-user-link');
+const addIcon = document.querySelector('#add-icon')
 let sockets = []
 
 function isLoggedIn() {
@@ -64,7 +66,7 @@ function userLogin(email, password) {
             auth: {email, password}
         })
     })
-        .then(response => console.log(response.json()))
+        .then(response => response.json())
         .then(userObject => {
             localStorage.setItem('token', `${userObject.jwt}`);
             localStorage.setItem('email', `${email}`);
@@ -91,14 +93,14 @@ function findCurrentUser() {
 }
 
 function renderChannel(room) {
-        let newDiv = document.createElement('div');
-        newDiv.classList.add('channel');
-        newDiv.dataset.roomId = room.id;
-        newDiv.innerText = `${room.name}`;
-        newDiv.addEventListener('click', event => {
+        let newLi = document.createElement('li');
+        newLi.classList.add('nav-item');
+        newLi.dataset.roomId = room.id;
+        newLi.innerText = `${room.name}`;
+        newLi.addEventListener('click', event => {
             findChannel(event.target.dataset.roomId)
         })
-        channelList.appendChild(newDiv)
+        channelList.appendChild(newLi)
 }
 
 function getChannelList() {
@@ -243,9 +245,13 @@ function removeAllClients(){
 
 document.addEventListener('DOMContentLoaded',() => {
     isLoggedIn();
+    addIcon.addEventListener('click', event => {
+        channelContainer.style = ''
+    });
     newChannel.addEventListener('submit', event => {
         event.preventDefault();
         createChannel(event.target[0].value)
+        channelContainer.style.display = "none";
     });
     messageForm.addEventListener('submit', event => {
         event.preventDefault();
@@ -266,6 +272,12 @@ document.addEventListener('DOMContentLoaded',() => {
         loginContainer.style = 'display: none';
         newUserContainer.style = ''
     });
+    let modal = document.getElementById('id02');
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            channelContainer.style.display = "none";
+        }
+    }
 });
 
 
