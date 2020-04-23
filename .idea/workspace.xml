@@ -40,8 +40,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
-        <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -184,7 +184,9 @@
       <workItem from="1587087668245" duration="13000" />
       <workItem from="1587424389551" duration="6629000" />
       <workItem from="1587432579685" duration="4147000" />
-      <workItem from="1587440237128" duration="4278000" />
+      <workItem from="1587440237128" duration="5941000" />
+      <workItem from="1587593326501" duration="1020000" />
+      <workItem from="1587594416432" duration="10118000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1586293512498</created>

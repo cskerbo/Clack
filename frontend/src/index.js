@@ -20,13 +20,12 @@ function isLoggedIn() {
         siteContainer.style = '';
         loginContainer.style = 'display: none';
         findCurrentUser()
-        setTimeout(function() {getChannelList(); }, 100)
+        setTimeout(function() { getChannelList(); }, 100)
     }
     else {
         loginContainer.style = '';
         siteContainer.style = 'display: none'
     }
-
 }
 
 function createUser(email, username, password) {
@@ -65,7 +64,7 @@ function userLogin(email, password) {
             auth: {email, password}
         })
     })
-        .then(response => response.json())
+        .then(response => console.log(response.json()))
         .then(userObject => {
             localStorage.setItem('token', `${userObject.jwt}`);
             localStorage.setItem('email', `${email}`);
@@ -254,7 +253,7 @@ document.addEventListener('DOMContentLoaded',() => {
     });
     loginForm.addEventListener('submit', event => {
         event.preventDefault();
-        console.log(event);
+        console.log(event.target[0].value)
         userLogin(event.target[0].value, event.target[1].value)
 
     });
