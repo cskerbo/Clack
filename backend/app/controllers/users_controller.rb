@@ -24,12 +24,17 @@ class UsersController < ApplicationController
   end
 
   def set_user
-    @user = User.find_by(id: params[:id])
+    @user = User.find(params[:user][:id])
+    if @user
+      render json: @user
+    else
+      render json: @user.errors.full_messages
+    end
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:email, :username, :password)
+    params.require(:user).permit(:email, :username, :password, :id)
   end
 end

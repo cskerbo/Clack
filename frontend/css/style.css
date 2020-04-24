@@ -9,6 +9,11 @@ input[type=text], input[type=password] {
     border: 1px solid #ccc;
     box-sizing: border-box;
 }
+html, body {
+    height: calc(100vh - 20px);
+    margin: 0;
+    padding: 0;
+}
 
 /* Set a style for all buttons */
 button {
@@ -54,7 +59,7 @@ span.psw {
 }
 
 /* The Modal (background) */
-.modal {
+.popup {
 
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -118,3 +123,37 @@ span.psw {
         width: 100%;
     }
 }
+
+.container-fluid {
+    padding-bottom: 10px;
+    padding-top: 55px;
+}
+
+#messages {
+    height: 70%;
+    overflow: scroll;
+}
+
+#channel-header {
+    height: 10%;
+}
+
+#message-input {
+    height: 20%;
+}
+
+.timestamp {
+    font-size: 0.7rem;
+}
+
+.message-header {
+    font-size: 1rem;
+    margin-bottom: .1rem;
+}
+
+.message-text {
+    margin-bottom: .5rem;
+}
+
+
+

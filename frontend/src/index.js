@@ -21,7 +21,7 @@ function isLoggedIn() {
     if (userToken) {
         siteContainer.style = '';
         loginContainer.style = 'display: none';
-        findCurrentUser()
+        setCurrentUser()
         setTimeout(function() { getChannelList(); }, 100)
     }
     else {
@@ -74,7 +74,7 @@ function userLogin(email, password) {
         })
 }
 
-function findCurrentUser() {
+function fetchCurrentUser() {
     let email = localStorage.getItem('email')
     return fetch(`${BASE_URL}/find_user`, {
         method: 'POST',
@@ -86,6 +86,23 @@ function findCurrentUser() {
             user: {email}
         })
     })
+}
+
+function findUserById(id) {
+    return fetch(`${BASE_URL}/set_user`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+            user: {id}
+        })
+    })
+}
+
+function setCurrentUser() {
+    fetchCurrentUser()
         .then(response => response.json())
         .then  (userObject => {
             localStorage.setItem('user_id', `${userObject.id}`);
@@ -173,10 +190,46 @@ function renderCurrentChannel(room) {
 }
 
 function renderMessage(message) {
-    let newMessage = document.createElement('P');
-    newMessage.innerText = `${message.content}`;
-    newMessage.dataset.messageId = message.id;
-    messageContainer.appendChild(newMessage)
+    findUserById(message.user_id)
+        .then(response => response.json())
+        .then  (userObject => {
+            let newMessageContainer = document.createElement('div')
+            newMessageContainer.classList.add('user-message', 'row')
+            let pictureContainer = document.createElement('div');
+            pictureContainer.classList.add('col-md-1')
+            let userPicture = document.createElement('img')
+            userPicture.classList.add('user-icon')
+            userPicture.setAttribute('src', 'images/user_icon.png')
+            userPicture.style = 'height: 40px; width: 40px'
+            let textContainer = document.createElement('div')
+            textContainer.classList.add('col-md-11')
+            let newMessageHeader = document.createElement('h5');
+            newMessageHeader.classList.add('message-header')
+            newMessageHeader.innerText = `${userObject.username}`
+            let newMessageText = document.createElement('P');
+            newMessageText.classList.add('message-text')
+            newMessageText.innerText = `${message.content}`
+            let messageTimestamp = document.createElement('P');
+            messageTimestamp.classList.add('timestamp')
+            let day = new Date(message.updated_at)
+            let timestamp = day.toLocaleString('en-us', {hour: '2-digit', minute:'2-digit'});
+            let today = new Date()
+            console.log(today.getDay())
+            if (day.getDay() === today.getDay()) {
+                messageTimestamp.innerText = timestamp
+            }
+            else {
+                messageTimestamp.innerText = day.toLocaleString( 'en-us', { weekday: 'long'} )
+            }
+            pictureContainer.appendChild(userPicture)
+            textContainer.appendChild(newMessageHeader)
+            textContainer.appendChild(newMessageText)
+            textContainer.appendChild(messageTimestamp)
+            newMessageContainer.appendChild(pictureContainer)
+            newMessageContainer.appendChild(textContainer)
+            newMessageContainer.dataset.messageId = message.id;
+            messageContainer.appendChild(newMessageContainer)
+        })
 }
 
 function createMessage(content, roomId) {
@@ -188,7 +241,7 @@ function createMessage(content, roomId) {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify({
-            content: `${localStorage.getItem('email')}: ${content}`,
+            content: content,
             room_id: roomId,
             user_id: `${localStorage.getItem('user_id')}`
         })
