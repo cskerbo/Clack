@@ -8,6 +8,8 @@ const channelList = document.querySelector('#channel-list');
 const newChannel = document.querySelector('#create-channel');
 const messageContainer = document.querySelector('#messages');
 const messageForm = document.querySelector('#create-message');
+const messageText = document.querySelector('#text-area')
+const messageInput = document.querySelector('#message-span')
 const currentChannel = document.querySelector('#current-channel');
 const channelHeader = document.querySelector('#channel-header');
 const loginForm = document.querySelector('#login-form');
@@ -30,7 +32,7 @@ function isLoggedIn() {
     }
 }
 
-function createUser(email, username, password, avatar) {
+function createUser(email, username, password) {
     fetch(`${BASE_URL}/users`,{
         method: 'POST',
         headers: {
@@ -38,7 +40,7 @@ function createUser(email, username, password, avatar) {
             enctype: 'multipart/form-data'
         },
         body: JSON.stringify({
-            user: {email, username, password, avatar}
+            user: {email, username, password}
         })
     })
         .then(response => response.json())
@@ -200,8 +202,7 @@ function renderMessage(message) {
             pictureContainer.classList.add('col-md-1')
             let userPicture = document.createElement('img')
             userPicture.classList.add('user-icon')
-            userPicture.setAttribute('src', `${userObject.avatar}`)
-            console.log(userObject)
+            userPicture.setAttribute('src', `images/user_icon.png`)
             userPicture.style = 'height: 40px; width: 40px'
             let textContainer = document.createElement('div')
             textContainer.classList.add('col-md-11')
@@ -230,6 +231,7 @@ function renderMessage(message) {
             newMessageContainer.appendChild(textContainer)
             newMessageContainer.dataset.messageId = message.id;
             messageContainer.appendChild(newMessageContainer)
+            messageText.value = ''
         })
 }
 
@@ -249,7 +251,6 @@ function createMessage(content, roomId) {
     })
         .then(handleErrors)
         .catch(err => alert('Oh Clack! It looks like there was an error: ' + err.message ));
-    messageForm.reset();
 }
 
 function checkSocket() {
@@ -307,9 +308,16 @@ document.addEventListener('DOMContentLoaded',() => {
         createChannel(event.target[0].value)
         channelContainer.style.display = "none";
     });
-    messageForm.addEventListener('submit', event => {
-        event.preventDefault();
-        createMessage(event.target[0].value, event.target.dataset.roomId)
+    messageInput.addEventListener('click', event => {
+        createMessage(event.path[3].firstElementChild.value, event.path[3].dataset.roomId)
+
+    });
+    messageText.addEventListener("keydown", event => {
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13 && !event.shiftKey) {
+            console.log(event)
+            createMessage(event.path[0].value, event.path[1].dataset.roomId)
+        }
     });
     loginForm.addEventListener('submit', event => {
         event.preventDefault();
@@ -318,8 +326,7 @@ document.addEventListener('DOMContentLoaded',() => {
     });
     newUserForm.addEventListener('submit', event => {
         event.preventDefault();
-        console.log(event)
-        createUser(event.target[0].value, event.target[1].value, event.target[2].value, event.target[3].value)
+        createUser(event.target[0].value, event.target[1].value, event.target[2].value)
     });
     newLink.addEventListener('click', event => {
         event.preventDefault();

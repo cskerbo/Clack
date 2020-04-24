@@ -12,7 +12,7 @@
       <schema-mapping />
     </data-source>
     <data-source name="Rails backend: development" uuid="022b61fc-4dda-40af-91af-483eedd69afd">
-      <database-info product="PostgreSQL" version="12.1" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.5" dbms="POSTGRES" exact-version="12.1" exact-driver-version="42.2">
+      <database-info product="PostgreSQL" version="12.2" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.5" dbms="POSTGRES" exact-version="12.2" exact-driver-version="42.2">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />

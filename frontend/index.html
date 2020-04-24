@@ -48,8 +48,6 @@
                 <input type="text" placeholder="Enter Username" name="uname" required>
                 <label for="password"><b>Password</b></label>
                 <input type="password" placeholder="Enter Password" name="psw" required>
-                <label for="avatar"><b>Upload a profile picture:</b></label>
-                <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
                 <button id="new-user-button" type="submit">Create Account</button>
             </div>
             <div class="container" style="background-color:#f1f1f1">
@@ -60,9 +58,8 @@
     </div>
 </div>
 <div class="container-fluid h-100" id="site-container" style="display: none">
-
-    <div class="row h-100" id="">
-        <nav class="col-md-3 d-none d-md-block bg-light sidebar">
+    <div class="row justify-content-center h-100" id="main-content">
+        <nav class="col-xl-3 col-md-4 d-none d-md-block sidebar">
             <div class="sidebar-sticky">
                     <h4>Your Channels</h4>
                     <i class="fas fa-plus-square fa-2x" id="add-icon"></i>
@@ -72,18 +69,19 @@
                 </ul>
             </div>
         </nav>
-    <div id="current-channel" class="col-md-9 h-100" style="display: none">
+    <div id="current-channel" class="col-xl-6 col-md-8 h-100" style="display: none">
         <div class="col-md-12">
         <h2 id="channel-header"></h2>
         </div>
     <div id="messages" class="col-md-12">
     </div>
         <div class="col-md-12" id="message-input">
-        <form id="create-message" style="display: none">
-            <label>New Message: </label>
-            <input type="text">
-            <button type="submit">Send</button><br>
-        </form>
+            <div class="input-group h-100" id="create-message" style="display: none">
+                <textarea name="" id="text-area" class="form-control type_msg" placeholder="Type your message..."></textarea>
+                <div class="input-group-append">
+                    <span class="input-group-text send_btn" id="message-span"><i class="fas fa-location-arrow"></i></span>
+                </div>
+            </div>
         </div>
     </div>
         <div id="new-channel-container" style="display: none">

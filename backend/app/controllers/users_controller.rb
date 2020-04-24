@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   end
 
   def set_user
-    @user = User.find(params[:user][:id])
+    @user = User.find_by(id: params[:user][:id])
     if @user
       render json: @user
     else
@@ -35,6 +35,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email, :username, :password, :id, :avatar)
+    params.require(:user).permit(:email, :username, :password, :avatar)
   end
 end

@@ -10,9 +10,11 @@ input[type=text], input[type=password] {
     box-sizing: border-box;
 }
 html, body {
-    height: calc(100vh - 20px);
+    height: calc(100vh - 140px);
     margin: 0;
     padding: 0;
+    background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
 }
 
 /* Set a style for all buttons */
@@ -125,14 +127,29 @@ span.psw {
 }
 
 .container-fluid {
-    padding-bottom: 10px;
-    padding-top: 55px;
+    margin-bottom: 50px;
+    margin-top: 90px;
 }
 
 #messages {
     height: 70%;
-    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
+
+#current-channel {
+    border-radius: 10px;
+
+    background-color: rgba(0,0,0,0.4) !important;
+}
+
+.sidebar {
+    border-radius: 10px;
+    margin-right: 10px;
+    background-color: rgba(0,0,0,0.4) !important;
+}
+
+
 
 #channel-header {
     height: 10%;
@@ -140,6 +157,7 @@ span.psw {
 
 #message-input {
     height: 20%;
+    margin-top: 10px;
 }
 
 .timestamp {
@@ -153,6 +171,31 @@ span.psw {
 
 .message-text {
     margin-bottom: .5rem;
+}
+
+.type_msg{
+    background-color: rgba(0,0,0,0.3) !important;
+    border-radius: 15px 0 0 15px !important;
+    border:0 !important;
+    color:white !important;
+    height: 100% !important;
+    overflow-y: auto;
+}
+.type_msg:focus{
+    box-shadow:none !important;
+    outline:0px !important;
+}
+
+.input-group textarea {
+    resize: none;
+}
+
+.send_btn{
+    border-radius: 0 15px 15px 0 !important;
+    background-color: rgba(0,0,0,0.3) !important;
+    border:0 !important;
+    color: white !important;
+    cursor: pointer;
 }
 
 
