@@ -30,14 +30,15 @@ function isLoggedIn() {
     }
 }
 
-function createUser(email, username, password) {
+function createUser(email, username, password, avatar) {
     fetch(`${BASE_URL}/users`,{
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            enctype: 'multipart/form-data'
         },
         body: JSON.stringify({
-            user: {email, username, password}
+            user: {email, username, password, avatar}
         })
     })
         .then(response => response.json())
@@ -199,7 +200,8 @@ function renderMessage(message) {
             pictureContainer.classList.add('col-md-1')
             let userPicture = document.createElement('img')
             userPicture.classList.add('user-icon')
-            userPicture.setAttribute('src', 'images/user_icon.png')
+            userPicture.setAttribute('src', `${userObject.avatar}`)
+            console.log(userObject)
             userPicture.style = 'height: 40px; width: 40px'
             let textContainer = document.createElement('div')
             textContainer.classList.add('col-md-11')
@@ -214,7 +216,6 @@ function renderMessage(message) {
             let day = new Date(message.updated_at)
             let timestamp = day.toLocaleString('en-us', {hour: '2-digit', minute:'2-digit'});
             let today = new Date()
-            console.log(today.getDay())
             if (day.getDay() === today.getDay()) {
                 messageTimestamp.innerText = timestamp
             }
@@ -312,13 +313,13 @@ document.addEventListener('DOMContentLoaded',() => {
     });
     loginForm.addEventListener('submit', event => {
         event.preventDefault();
-        console.log(event.target[0].value)
         userLogin(event.target[0].value, event.target[1].value)
 
     });
     newUserForm.addEventListener('submit', event => {
         event.preventDefault();
-        createUser(event.target[0].value, event.target[1].value, event.target[2].value)
+        console.log(event)
+        createUser(event.target[0].value, event.target[1].value, event.target[2].value, event.target[3].value)
     });
     newLink.addEventListener('click', event => {
         event.preventDefault();

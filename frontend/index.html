@@ -37,7 +37,7 @@
 </div>
 <div id="new-user-container" style="display: none">
     <div id="id01" class="">
-        <form id="new-user-form">
+        <form enctype="multipart/form-data" id="new-user-form">
             <div class="imgcontainer">
                 <img src="img_avatar2.png" alt="Avatar" class="avatar">
             </div>
@@ -48,6 +48,8 @@
                 <input type="text" placeholder="Enter Username" name="uname" required>
                 <label for="password"><b>Password</b></label>
                 <input type="password" placeholder="Enter Password" name="psw" required>
+                <label for="avatar"><b>Upload a profile picture:</b></label>
+                <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
                 <button id="new-user-button" type="submit">Create Account</button>
             </div>
             <div class="container" style="background-color:#f1f1f1">
