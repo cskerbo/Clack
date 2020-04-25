@@ -10,11 +10,15 @@ input[type=text], input[type=password] {
     box-sizing: border-box;
 }
 html, body {
-    height: calc(100vh - 140px);
+    height: calc(100vh - 150px);
     margin: 0;
     padding: 0;
-    background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
-    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+    background: -webkit-linear-gradient(to right, #7F7FD5, #86A8E7, #91EAE4);
+    background: linear-gradient(to right, #7F7FD5, #86A8E7, #91EAE4);
+}
+
+.btn-success {
+    margin-bottom: 5px;
 }
 
 /* Set a style for all buttons */
@@ -55,6 +59,17 @@ img.avatar {
     padding: 16px;
 }
 
+#add-icon {
+    color: lawngreen;
+    opacity: 0.4;
+}
+
+#add-icon:hover {
+    cursor: pointer;
+    color: chartreuse;
+    opacity: 0.8;
+}
+
 span.psw {
     float: right;
     padding-top: 16px;
@@ -62,11 +77,11 @@ span.psw {
 
 /* The Modal (background) */
 .popup {
-
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
     left: 0;
     top: 0;
+
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
@@ -77,10 +92,12 @@ span.psw {
 
 /* Modal Content/Box */
 #login-form, #new-user-form, #create-channel {
-    background-color: #fefefe;
+    background-color: rgba(0,0,0,0.6) !important;
     margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    border-radius: 10px;
+    width: 30%; /* Could be more or less, depending on screen size */
+    color: white;
 }
 
 /* The Close Button (x) */
@@ -92,7 +109,6 @@ span.psw {
     font-size: 35px;
     font-weight: bold;
 }
-
 .close:hover,
 .close:focus {
     color: red;
@@ -128,18 +144,13 @@ span.psw {
 
 .container-fluid {
     margin-bottom: 50px;
-    margin-top: 90px;
+    margin-top: 10px;
+    color: white;
 }
 
-#messages {
-    height: 70%;
-    overflow-x: hidden;
-    overflow-y: scroll;
-}
 
 #current-channel {
     border-radius: 10px;
-
     background-color: rgba(0,0,0,0.4) !important;
 }
 
@@ -149,19 +160,52 @@ span.psw {
     background-color: rgba(0,0,0,0.4) !important;
 }
 
+#channel-list {
+    text-align: center;
+}
 
-
-#channel-header {
+#channel-name {
     height: 10%;
+    padding-bottom: 20px;
+    -webkit-box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.3);
+}
+
+#messages {
+    height: 70%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+
 }
 
 #message-input {
     height: 20%;
-    margin-top: 10px;
+    padding-top: 20px;
+    -webkit-box-shadow: 0 -8px 6px -6px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 -8px 6px -6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 -8px 6px -6px rgba(0, 0, 0, 0.3);
 }
 
+#channel-header {
+    padding-top: 20px;
+}
 .timestamp {
     font-size: 0.7rem;
+    color: #cccccc;
+}
+
+#close-icon {
+    margin-top: 5px;
+    color: #f44336;
+    opacity: 0.4;
+    cursor: pointer;
+}
+
+#close-icon:hover {
+    opacity: 0.8;
 }
 
 .message-header {
@@ -171,6 +215,7 @@ span.psw {
 
 .message-text {
     margin-bottom: .5rem;
+    color: antiquewhite;
 }
 
 .type_msg{
@@ -178,7 +223,7 @@ span.psw {
     border-radius: 15px 0 0 15px !important;
     border:0 !important;
     color:white !important;
-    height: 100% !important;
+    height: 50% !important;
     overflow-y: auto;
 }
 .type_msg:focus{
@@ -193,10 +238,67 @@ span.psw {
 .send_btn{
     border-radius: 0 15px 15px 0 !important;
     background-color: rgba(0,0,0,0.3) !important;
+    height: 50%;
     border:0 !important;
     color: white !important;
     cursor: pointer;
 }
 
+.nav-item {
+    cursor: pointer;
+    font-size: 1.7em;
+    border-radius: 10px;
+}
+
+#logo {
+    color: white;
+    font-size: 2rem;
+}
+
+.nav-item:hover {
+    color: black;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.send_btn:hover {
+    background-color: rgba(0,0,0,0.6) !important;
+
+}
+
+#your-channels {
+    margin-top: 10px;
+    height: 50px;
+    font-size: 2em;
+    -webkit-box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.3);
+}
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: rgba(0,0,0,0.3) !important;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.4) !important;
+    border-radius: 10px;
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255,255,255,0.5) !important;
+}
+
+.fas.fa-comments {
+    color: chartreuse;
+}
 
 

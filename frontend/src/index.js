@@ -15,7 +15,9 @@ const channelHeader = document.querySelector('#channel-header');
 const loginForm = document.querySelector('#login-form');
 const newUserForm = document.querySelector('#new-user-form');
 const newLink = document.querySelector('#new-user-link');
-const addIcon = document.querySelector('#add-icon')
+const addIcon = document.querySelector('#add-icon');
+const logoutButton = document.querySelector('#logout')
+const cancelButton = document.querySelector('#cancel')
 let sockets = []
 
 function isLoggedIn() {
@@ -23,6 +25,7 @@ function isLoggedIn() {
     if (userToken) {
         siteContainer.style = '';
         loginContainer.style = 'display: none';
+        logoutButton.classList.remove('disabled')
         setCurrentUser()
         setTimeout(function() { getChannelList(); }, 100)
     }
@@ -182,7 +185,7 @@ function renderCurrentChannel(room) {
     currentChannel.style = '';
     messageContainer.innerHTML = '';
     messageContainer.setAttribute('id', 'messages');
-    channelHeader.innerText = room.name;
+    channelHeader.innerHTML = `#${room.name} <i class="fas fa-window-close float-right" id="close-icon" onclick="closeChannel()"></i>`;
     messageForm.style = '';
     messageForm.dataset.roomId = room.id;
 
@@ -190,6 +193,7 @@ function renderCurrentChannel(room) {
         renderMessage(message)
     });
     createWebsocket(room.id)
+    scrollToBottom()
 }
 
 function renderMessage(message) {
@@ -232,6 +236,7 @@ function renderMessage(message) {
             newMessageContainer.dataset.messageId = message.id;
             messageContainer.appendChild(newMessageContainer)
             messageText.value = ''
+            scrollToBottom()
         })
 }
 
@@ -298,6 +303,15 @@ function removeAllClients(){
 
 }
 
+function closeChannel() {
+        currentChannel.style = 'display: none';
+}
+
+function scrollToBottom() {
+    messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
+}
+
+
 document.addEventListener('DOMContentLoaded',() => {
     isLoggedIn();
     addIcon.addEventListener('click', event => {
@@ -315,7 +329,6 @@ document.addEventListener('DOMContentLoaded',() => {
     messageText.addEventListener("keydown", event => {
         // Number 13 is the "Enter" key on the keyboard
         if (event.keyCode === 13 && !event.shiftKey) {
-            console.log(event)
             createMessage(event.path[0].value, event.path[1].dataset.roomId)
         }
     });
@@ -333,12 +346,24 @@ document.addEventListener('DOMContentLoaded',() => {
         loginContainer.style = 'display: none';
         newUserContainer.style = ''
     });
+    cancelButton.addEventListener('click', event => {
+        event.preventDefault();
+        loginContainer.style = '';
+        newUserContainer.style = 'display: none'
+    });
+    logoutButton.addEventListener('click', event => {
+        event.preventDefault();
+        localStorage.clear();
+        channelList.innerHTML = '';
+        logoutButton.classList.add('disabled')
+        isLoggedIn()
+    });
     let modal = document.getElementById('id02');
     window.onclick = function(event) {
         if (event.target == modal) {
             channelContainer.style.display = "none";
         }
-    }
+    };
 });
 
 

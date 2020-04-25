@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://kit.fontawesome.com/a810548819.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -11,27 +14,32 @@
 </head>
 
 <body>
-<nav class="navbar fixed-top navbar-light bg-light">
-    <a class="navbar-brand" href="#">Clack <i class="fab fa-slack 2x"></i></a>
+<nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" id="logo" href="#">Clack <i class="fab fa-slack"></i></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav ml-auto">
+            <a class="btn btn-outline-danger disabled" id="logout" href="#">Logout</a>
+        </div>
+    </div>
 </nav>
 <div id="login-container" style="display: none">
         <div id="id01" class="">
             <form id="login-form">
                 <div class="imgcontainer">
-                    <img src="img_avatar2.png" alt="Avatar" class="avatar">
+                    <i class="fab fa-slack fa-5x"></i>
                 </div>
                 <div class="container">
                     <label for="email"><b>Email</b></label>
                     <input type="text" placeholder="Enter Email" name="email" required>
                     <label for="password"><b>Password</b></label>
                     <input type="password" placeholder="Enter Password" name="psw" required>
-                    <button id="login-button" type="submit">Login</button>
-                    <button id="new-user-link" >Sign Up</button>
+                    <button id="login-button" class="btn btn-success" type="submit">Login</button>
+                    <button id="new-user-link" class="btn btn-success" >Sign Up</button>
                 </div>
-                <div class="container" style="background-color:#f1f1f1">
-                    <button type="button" class="cancelbtn">Cancel</button>
-                    <span class="psw">Forgot <a href="#">password?</a></span>
-                </div>
+
             </form>
         </div>
 </div>
@@ -39,7 +47,7 @@
     <div id="id01" class="">
         <form enctype="multipart/form-data" id="new-user-form">
             <div class="imgcontainer">
-                <img src="img_avatar2.png" alt="Avatar" class="avatar">
+                <i class="fab fa-slack fa-5x"></i>
             </div>
             <div class="container">
                 <label for="email"><b>Email</b></label>
@@ -48,11 +56,8 @@
                 <input type="text" placeholder="Enter Username" name="uname" required>
                 <label for="password"><b>Password</b></label>
                 <input type="password" placeholder="Enter Password" name="psw" required>
-                <button id="new-user-button" type="submit">Create Account</button>
-            </div>
-            <div class="container" style="background-color:#f1f1f1">
-                <button type="button" class="cancelbtn">Cancel</button>
-                <span class="psw">Forgot <a href="#">password?</a></span>
+                <button id="new-user-button" type="submit" class="btn btn-success">Create Account</button>
+                <button type="button" id="cancel" class="btn btn-danger">Cancel</button>
             </div>
         </form>
     </div>
@@ -61,8 +66,8 @@
     <div class="row justify-content-center h-100" id="main-content">
         <nav class="col-xl-3 col-md-4 d-none d-md-block sidebar">
             <div class="sidebar-sticky">
-                    <h4>Your Channels</h4>
-                    <i class="fas fa-plus-square fa-2x" id="add-icon"></i>
+                    <h3 id="your-channels">Your Channels <i class="fas fa-plus-square fa-1x float-right" id="add-icon"></i></h3>
+
 
                 <ul class="nav flex-column" id="channel-list">
 
@@ -70,8 +75,9 @@
             </div>
         </nav>
     <div id="current-channel" class="col-xl-6 col-md-8 h-100" style="display: none">
-        <div class="col-md-12">
+        <div class="col-md-12" id="channel-name">
         <h2 id="channel-header"></h2>
+
         </div>
     <div id="messages" class="col-md-12">
     </div>
