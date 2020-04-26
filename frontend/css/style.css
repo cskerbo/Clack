@@ -89,6 +89,10 @@ span.psw {
     padding-top: 60px;
 }
 
+.fixed-bottom {
+    text-align: center;
+}
+
 /* Modal Content/Box */
 #login-form, #new-user-form, #create-channel {
     background-color: rgba(0,0,0,0.6) !important;
