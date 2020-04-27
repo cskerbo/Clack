@@ -323,8 +323,8 @@ document.addEventListener('DOMContentLoaded',() => {
         channelContainer.style.display = "none";
     });
     messageInput.addEventListener('click', event => {
-        createMessage(event.path[3].firstElementChild.value, event.path[3].dataset.roomId)
-
+        console.log(event)
+        createMessage(event.path[2].firstElementChild.value, event.path[2].dataset.roomId)
     });
     messageText.addEventListener("keydown", event => {
         // Number 13 is the "Enter" key on the keyboard
