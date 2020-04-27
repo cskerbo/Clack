@@ -12,11 +12,11 @@ Clack is a SPA (single-page application) Slack™ clone built using a JavaScript
 
 ## Screenshots
 
-![Login](frontend/images/login.jpg)
+![Login](frontend/images/login.JPG)
 
-![Signup](frontend/images/signup.jpg)
+![Signup](frontend/images/signup.JPG)
 
-![Main Page](frontend/images/main_page.jpg)
+![Main Page](frontend/images/main_page.JPG)
 
 ## Contributing
 
