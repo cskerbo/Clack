@@ -18,6 +18,7 @@ const newLink = document.querySelector('#new-user-link');
 const addIcon = document.querySelector('#add-icon');
 const logoutButton = document.querySelector('#logout')
 const cancelButton = document.querySelector('#cancel')
+const sortButton = document.querySelector('#sort')
 let sockets = []
 
 function isLoggedIn() {
@@ -142,6 +143,34 @@ function getChannelList() {
         })
 }
 
+function sortRoomList() {
+    fetch( `${BASE_URL}/rooms`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+        .then(response => response.json())
+        .then(roomArray => {
+            roomArray.sort(function(a, b) {
+                var nameA = a.name.toUpperCase(); // ignore upper and lowercase
+                var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
+            channelList.innerHTML = '';
+            roomArray.forEach( room => {
+                renderChannel(room)
+        })
+    })
+}
+
 function createChannel(channelName) {
     fetch(`${BASE_URL}/rooms`,{
         method: 'POST',
@@ -188,56 +217,65 @@ function renderCurrentChannel(room) {
     channelHeader.innerHTML = `#${room.name} <i class="fas fa-window-close float-right" id="close-icon" onclick="closeChannel()"></i>`;
     messageForm.style = '';
     messageForm.dataset.roomId = room.id;
-
-    room.messages.forEach( message => {
-        renderMessage(message)
+    roomMessages = room.messages.sort((a, b) => a.created_at - b.created_at)
+    roomMessages.forEach( messageData => {
+        let newMessage = new Message(messageData)
+        newMessage.renderMessage()
     });
     createWebsocket(room.id)
     scrollToBottom()
 }
 
-function renderMessage(message) {
-    findUserById(message.user_id)
-        .then(response => response.json())
-        .then  (userObject => {
-            let newMessageContainer = document.createElement('div')
-            newMessageContainer.classList.add('user-message', 'row')
-            let pictureContainer = document.createElement('div');
-            pictureContainer.classList.add('col-md-1')
-            let userPicture = document.createElement('img')
-            userPicture.classList.add('user-icon')
-            userPicture.setAttribute('src', `images/user_icon.png`)
-            userPicture.style = 'height: 40px; width: 40px'
-            let textContainer = document.createElement('div')
-            textContainer.classList.add('col-md-11')
-            let newMessageHeader = document.createElement('h5');
-            newMessageHeader.classList.add('message-header')
-            newMessageHeader.innerText = `${userObject.username}`
-            let newMessageText = document.createElement('P');
-            newMessageText.classList.add('message-text')
-            newMessageText.innerText = `${message.content}`
-            let messageTimestamp = document.createElement('P');
-            messageTimestamp.classList.add('timestamp')
-            let day = new Date(message.updated_at)
-            let timestamp = day.toLocaleString('en-us', {hour: '2-digit', minute:'2-digit'});
-            let today = new Date()
-            if (day.getDay() === today.getDay()) {
-                messageTimestamp.innerText = timestamp
-            }
-            else {
-                messageTimestamp.innerText = day.toLocaleString( 'en-us', { weekday: 'long'} )
-            }
-            pictureContainer.appendChild(userPicture)
-            textContainer.appendChild(newMessageHeader)
-            textContainer.appendChild(newMessageText)
-            textContainer.appendChild(messageTimestamp)
-            newMessageContainer.appendChild(pictureContainer)
-            newMessageContainer.appendChild(textContainer)
-            newMessageContainer.dataset.messageId = message.id;
-            messageContainer.appendChild(newMessageContainer)
-            messageText.value = ''
-            scrollToBottom()
-        })
+class Message {
+    constructor(messageData) {
+        this.user_id = messageData.user_id
+        this.content = messageData.content
+        this.id = messageData.id
+        this.updated_at = messageData.updated_at
+    }
+
+    renderMessage() {
+        findUserById(this.user_id)
+            .then(response => response.json())
+            .then(userObject => {
+                let newMessageContainer = document.createElement('div')
+                newMessageContainer.classList.add('user-message', 'row')
+                let pictureContainer = document.createElement('div');
+                pictureContainer.classList.add('col-md-1')
+                let userPicture = document.createElement('img')
+                userPicture.classList.add('user-icon')
+                userPicture.setAttribute('src', `images/user_icon.png`)
+                userPicture.style = 'height: 40px; width: 40px'
+                let textContainer = document.createElement('div')
+                textContainer.classList.add('col-md-11')
+                let newMessageHeader = document.createElement('h5');
+                newMessageHeader.classList.add('message-header')
+                newMessageHeader.innerText = `${userObject.username}`
+                let newMessageText = document.createElement('P');
+                newMessageText.classList.add('message-text')
+                newMessageText.innerText = `${this.content}`
+                let messageTimestamp = document.createElement('P');
+                messageTimestamp.classList.add('timestamp')
+                let day = new Date(this.updated_at)
+                let timestamp = day.toLocaleString('en-us', {hour: '2-digit', minute: '2-digit'});
+                let today = new Date()
+                if (day.getDay() === today.getDay()) {
+                    messageTimestamp.innerText = timestamp
+                } else {
+                    messageTimestamp.innerText = day.toLocaleString('en-us', {weekday: 'long'})
+                }
+                pictureContainer.appendChild(userPicture)
+                textContainer.appendChild(newMessageHeader)
+                textContainer.appendChild(newMessageText)
+                textContainer.appendChild(messageTimestamp)
+                newMessageContainer.appendChild(pictureContainer)
+                newMessageContainer.appendChild(textContainer)
+                newMessageContainer.dataset.messageId = this.id;
+                messageContainer.appendChild(newMessageContainer)
+                messageText.value = ''
+                scrollToBottom()
+            })
+    }
 }
 
 function createMessage(content, roomId) {
@@ -281,12 +319,13 @@ function createWebsocket(roomId) {
     };
     socket.onmessage = function(event) {
         const response = event.data;
-        const newMessage = JSON.parse(response);
+        let newMessage = JSON.parse(response);
         if (newMessage.type === "ping") {
             return;
         }
         if (newMessage.message) {
-            renderMessage(newMessage.message)
+            let compMessage = new Message(newMessage.message)
+            compMessage.renderMessage()
         }
     };
     socket.onerror = function(error) {
@@ -324,7 +363,7 @@ document.addEventListener('DOMContentLoaded',() => {
     });
     messageInput.addEventListener('click', event => {
         console.log(event)
-        createMessage(event.path[2].firstElementChild.value, event.path[2].dataset.roomId)
+        createMessage(event.path[3].firstElementChild.value, event.path[3].dataset.roomId)
     });
     messageText.addEventListener("keydown", event => {
         // Number 13 is the "Enter" key on the keyboard
@@ -364,6 +403,9 @@ document.addEventListener('DOMContentLoaded',() => {
             channelContainer.style.display = "none";
         }
     };
+    sortButton.addEventListener('click', event => {
+        sortRoomList()
+    })
 });
 
 

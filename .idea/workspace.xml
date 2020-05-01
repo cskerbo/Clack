@@ -62,16 +62,6 @@
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="Rails backend: development" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="backend_development: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
-        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="messages: table" type="69fad909:PgImplModel$LocalTable" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="Rails backend: production" type="feb32156:DbDataSourceImpl" />
       </path>
       <path>
@@ -236,6 +226,8 @@
       <workItem from="1587593326501" duration="1020000" />
       <workItem from="1587594416432" duration="10118000" />
       <workItem from="1587935466319" duration="7427000" />
+      <workItem from="1587954168456" duration="37000" />
+      <workItem from="1588302885469" duration="6398000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1586293512498</created>
@@ -356,6 +348,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586294076511" />
+    <state x="804" y="410" width="326" height="234" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1" timestamp="1588303804306">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="804" y="410" width="326" height="234" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1/0.0.1920.1040@0.0.1920.1040" timestamp="1588303804306" />
     <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1586293916076">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
